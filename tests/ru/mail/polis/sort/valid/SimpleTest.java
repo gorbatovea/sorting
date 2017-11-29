@@ -31,9 +31,9 @@ public class SimpleTest {
 
     @Test
     public void testLSD() throws IOException {
-        LSDSort<Numerical> lsdSort = new LSDSort<>();
+        LSDSort<SimpleInteger> lsdSort = new LSDSort<>();
         Numerical[] array = new Numerical[]{new SimpleInteger(10), new SimpleInteger(20), new SimpleInteger(30)};
-        lsdSort.sort(array);
+        lsdSort.sort((SimpleInteger[])array);
     }
 
     @Test
