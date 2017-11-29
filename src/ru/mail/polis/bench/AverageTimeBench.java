@@ -41,6 +41,9 @@ public class AverageTimeBench {
     CountingSort<IntKeyObject> countingSort = new CountingSort<>();
     QuickSort<Integer> quickSort = new QuickSort<>();
     LSDSort<SimpleString> lsdSort = new LSDSort<>();
+    MergeSort<Integer> mergeSort = new MergeSort<>();
+    Quick3Sort<Integer> quick3Sort = new Quick3Sort<>();
+    HeapSort<Integer> heapSort = new HeapSort<>();
 
     int[][] intData;
     int[] intCurrent;
@@ -88,17 +91,32 @@ public class AverageTimeBench {
 
     @Benchmark
     public void measureCountingSort() {
-        countingSort.sort(intKeyCurrent);
-    }
-
-    @Benchmark
-    public void measureQuickSort() {
-        quickSort.sort(integerCurrent);
+        countingSort.sort(intKeyCurrent); //numbers from 0 to max
     }
 
     @Benchmark
     public void measureLSDSort() {
-        lsdSort.sort(simpleDataCurrent);
+        lsdSort.sort(simpleDataCurrent); //a lot of strings with same length
+    }
+
+    @Benchmark
+    public void measureQuickSort() {
+        quickSort.sort(integerCurrent); //random numbers
+    }
+
+    @Benchmark
+    public void measureQuick3Sort() {
+        quick3Sort.sort(integerCurrent); //random numbers
+    }
+
+    @Benchmark
+    public void measureMergeSort() {
+        mergeSort.sort(integerCurrent); //random numbers
+    }
+
+    @Benchmark
+    public void measureHeapSort() {
+        heapSort.sort(integerCurrent); //random numbers
     }
 
     public static void main(String[] args) throws RunnerException {

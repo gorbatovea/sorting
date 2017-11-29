@@ -1,10 +1,10 @@
 package ru.mail.polis.structures;
 
-public class SomeIntKeyObject<T> implements IntKeyObject<T>{
+public class SimpleIntKeyObject<T> implements IntKeyObject<T>{
     public final int key;
     public final T value;
 
-    public SomeIntKeyObject(int key,T value){
+    public SimpleIntKeyObject(int key,T value){
         this.key = key;
         this.value = value;
     }

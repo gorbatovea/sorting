@@ -1,9 +1,6 @@
 package ru.mail.polis.sort;
 
-import ru.mail.polis.structures.IntKeyObject;
-import ru.mail.polis.structures.SimpleInteger;
-import ru.mail.polis.structures.SimpleString;
-import ru.mail.polis.structures.SomeIntKeyObject;
+import ru.mail.polis.structures.*;
 
 import java.util.Comparator;
 import java.util.Random;
@@ -21,7 +18,7 @@ public class SortUtils {
         a[j] = x;
     }
 
-    public static <T>void swap(T[] list, int i, int j){
+    public static <T> void swap(T[] list, int i, int j) {
         T temp = list[i];
         list[i] = list[j];
         list[j] = temp;
@@ -83,10 +80,10 @@ public class SortUtils {
         return isSorted;
     }
 
-    public static IntKeyObject[] generateArrayIntKeyObjects(int size){
+    public static IntKeyObject[] generateArrayIntKeyObjects(int size) {
         IntKeyObject[] list = new IntKeyObject[size];
-        for(int i = 0; i < list.length; i++){
-            list[i] = new SomeIntKeyObject(i + 1, i + 1);
+        for (int i = 0; i < list.length; i++) {
+            list[i] = new SimpleIntKeyObject(i + 1, i + 1);
         }
         for (int i = list.length - 1; i >= 0; i--) {
             int j = r.nextInt(i + 1);
@@ -95,23 +92,23 @@ public class SortUtils {
         return list;
     }
 
-    public static SimpleString[] generateSimpleString(int size){
+    public static SimpleString[] generateSimpleString(int size) {
         SimpleString[] list = new SimpleString[size];
-        int length = 1 + (int)(Math.random() * size);
-        for(int j = 0; j < size; j++){
+        int length = 1 + (int) (Math.random() * size);
+        for (int j = 0; j < size; j++) {
             String tempStr = "";
-            for(int i = 1; i <= length; i++){
-                int chr = FIRST_CHAR + (int)(Math.random() * (LAST_CHAR - FIRST_CHAR));
-                tempStr = tempStr.concat("" + (char)chr);
+            for (int i = 1; i <= length; i++) {
+                int chr = FIRST_CHAR + (int) (Math.random() * (LAST_CHAR - FIRST_CHAR));
+                tempStr = tempStr.concat("" + (char) chr);
             }
             list[j] = new SimpleString(tempStr);
         }
         return list;
     }
 
-    public static SimpleInteger[] generateSimpleInteger(int size){
+    public static SimpleInteger[] generateSimpleInteger(int size) {
         SimpleInteger[] list = new SimpleInteger[size];
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             list[i] = new SimpleInteger(i + 1);
         }
         for (int i = list.length - 1; i >= 0; i--) {
@@ -121,9 +118,27 @@ public class SortUtils {
         return list;
     }
 
-    public static void printArray(SimpleString[] list){
-        for(SimpleString object : list){
+    public static void printArray(SimpleString[] list) {
+        for (SimpleString object : list) {
             System.out.println(object.toString());
         }
+    }
+
+    public static int[] generateAntiQSort(int size) {
+        int[] list = new int[size];
+        int mid, value = list.length;
+        int last = list.length - 1;
+        int posOne = 0, posTwo = 0;
+        while (last >= 0) {
+            mid = last / 2;
+            swap(list, mid, last--);
+        }
+        for(int i = 0; i < list.length; i++){
+            if (value == 1) posOne = list[i] - 1;
+            if (value == 2) posTwo = list[i] - 1;
+            list[list[i] - 1] = value++;
+        }
+        swap(list, posOne, posTwo);
+        return list;
     }
 }
