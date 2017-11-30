@@ -1,13 +1,18 @@
 package ru.mail.polis.bench;
 
 import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
+import ru.mail.polis.sort.CountingSort;
 import ru.mail.polis.sort.Sort;
 import ru.mail.polis.sort.SortUtils;
 import ru.mail.polis.structures.IntKeyObject;
 
 import java.util.concurrent.TimeUnit;
 
-@State(Scope.Benchmark)
+@State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 @Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
@@ -15,23 +20,26 @@ import java.util.concurrent.TimeUnit;
 @Fork(1)
 public class IntKeyObjectSortBench {
     //todo: классы extends AbstractSortOnComparisons и CountingSort
-    IntKeyObject<Integer>[][] data;
+
+    CountingSort<IntKeyObject> countingSort = new CountingSort<>();
+
     IntKeyObject<Integer>[] current;
 
-    int index = 0;
-
-    @Setup(value = Level.Trial)
-    public void setUpTrial(){
-        data = new IntKeyObject[10][100];
-        current = new IntKeyObject[100];
-        for(int i = 0; i < 10; i++){
-            data[i] = SortUtils.generateArrayIntKeyObjects(100);
-        }
+    @Setup(value = Level.Invocation)
+    public void setUpInvocation(){
+        current = SortUtils.generateArrayIntKeyObjects(1000);
     }
 
-   @Setup(value = Level.Invocation)
-   public void setUpInvocation(){
-        current = data[index];
-        index = (index + 1) % 10;
-   }
+    @Benchmark
+    public void measureIntKeyObjectSortBench(){
+        countingSort.sort(current);
+    }
+
+    public static void main(String[] args) throws RunnerException {
+        Options opt = new OptionsBuilder()
+                .include(IntKeyObjectSortBench.class.getSimpleName())
+                .build();
+
+        new Runner(opt).run();
+    }
 }
